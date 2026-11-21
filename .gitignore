@@ -1,0 +1,14 @@
+# Pasta de compilação e binários
+build/
+*.o
+*.obj
+*.exe
+*.out
+line_calc
+
+# Configurações locais do VS Code (opcional, mantém cada máquina livre)
+.vscode/
+
+# Arquivos temporários do sistema operacional
+.DS_Store
+Thumbs.db
