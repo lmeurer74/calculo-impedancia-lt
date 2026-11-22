@@ -178,9 +178,14 @@ Aplicando a transformação de Fortescue desacoplada para os dois circuitos:
 $$[Z_{012,\text{mútua}}] = [A_s]^{-1} [Z_{c1,c2}] [A_s]$$
 
 O acoplamento mútuo dominante entre os dois circuitos independentes ocorre no modo homopolar (retorno pela terra compartilhado):
-$$Z_{0m} = R_{0m} + j X_{0m} = [Z_{012,\text{mútua}}]_{0,0} \quad [\Omega/\text{km}]$$
+$$
+Z_{0m} = R_{0m} + j X_{0m} = [Z_{012,\text{mútua}}]_{0,0} \quad [\Omega/\text{km}]
+$$
+
 A admitância e capacitância mútua de sequência zero correspondentes são:
-$$C_{0m} = \frac{1}{3} \sum_{i=0}^2 \sum_{j=3}^5 |C_{ij}| \quad [\text{F/km}], \quad Y_{0m} = j \omega C_{0m} \quad [\text{S/km}]$$
+$$
+C_{0m} = \frac{1}{3} \sum_{i=0}^2 \sum_{j=3}^5 |C_{ij}| \quad [\text{F/km}], \quad Y_{0m} = j \omega C_{0m} \quad [\text{S/km}]
+$$
 
 ![Acoplamento em Circuito Duplo](./images/double_circuit_coupling.png)
 
