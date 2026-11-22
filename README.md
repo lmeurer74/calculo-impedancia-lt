@@ -155,6 +155,7 @@ onde $N_p$ e $N_q$ são as quantidades de subcondutores das fases $p$ e $q$.
 ### 2.7 Componentes Simétricas e Regime de Transposição
 
 A transformação das coordenadas de fase ($a, b, c$) para componentes simétricas ($0, 1, 2$) é realizada através da matriz de Fortescue $[A_s]$:
+
 $$[A_s] = \begin{bmatrix} 1 & 1 & 1 \\ 1 & a^2 & a \\ 1 & a & a^2 \end{bmatrix} \quad \text{com } a = e^{j 120^\circ} = -\frac{1}{2} + j \frac{\sqrt{3}}{2}$$
 
 $$[Z_{012}] = [A_s]^{-1} [Z_{\text{fase}}] [A_s]$$
@@ -179,11 +180,13 @@ Aplicando a transformação de Fortescue desacoplada para os dois circuitos:
 $$[Z_{012,\text{mútua}}] = [A_s]^{-1} [Z_{c1,c2}] [A_s]$$
 
 O acoplamento mútuo dominante entre os dois circuitos independentes ocorre no modo homopolar (retorno pela terra compartilhado):
+
 $$
 Z_{0m} = R_{0m} + j X_{0m} = [Z_{012,\text{mútua}}]_{0,0} \quad [\Omega/\text{km}]
 $$
 
 A admitância e capacitância mútua de sequência zero correspondentes são:
+
 $$
 C_{0m} = \frac{1}{3} \sum_{i=0}^2 \sum_{j=3}^5 |C_{ij}| \quad [\text{F/km}], \quad Y_{0m} = j \omega C_{0m} \quad [\text{S/km}]
 $$
