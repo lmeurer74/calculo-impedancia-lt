@@ -123,6 +123,7 @@ $$[Y] = j \omega [C] \quad [\text{S/m}]$$
 Em linhas com cabos para-raios aterrados continuamente em todas as torres, a condição de contorno ao longo de todo o vão impõe potencial elétrico nulo nesses condutores ($V_g = 0$ e $dV_g/dx = 0$).
 
 Particionando as matrizes primitivas em condutores de fase ($w$) e cabos para-raios ($g$):
+
 $$\begin{bmatrix} [V_w] \\ [0] \end{bmatrix} = \begin{bmatrix} [Z_{ww}] & [Z_{wg}] \\ [Z_{gw}] & [Z_{gg}] \end{bmatrix} \begin{bmatrix} [I_w] \\ [I_g] \end{bmatrix}$$
 
 Isolando as correntes induzidas nos para-raios:
