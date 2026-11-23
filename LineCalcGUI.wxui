@@ -1,0 +1,413 @@
+<?xml version="1.0"?>
+<wxUiEditorData
+  data_version="16">
+  <node
+    class="Project"
+    dialog_units="0"
+    base_directory="src"
+    src_preamble="// Imported from D:\ProjetosProgramacao\C++\ImpedanciaLinhas\calculo-impedancia-lt\LineCalcGUI.wxui"
+    wxWidgets_version="3.2">
+    <node
+      class="wxFrame"
+      class_name="MainFrameBase"
+      icon="Embed;src/app_icon.ico"
+      style="wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL"
+      title="Calculadora de Parâmetros Elétricos de Linhas de Transmissão"
+      base_file="MainFrameBase"
+      derived_class_name="MainFrame"
+      derived_file="MainFrame"
+      size="1200,820">
+      <node
+        class="wxBoxSizer"
+        orientation="wxVERTICAL">
+        <node
+          class="wxPanel"
+          var_name="m_scrolledMain"
+          window_style="wxTAB_TRAVERSAL"
+          flags="wxEXPAND"
+          proportion="1">
+          <node
+            class="wxBoxSizer"
+            orientation="wxVERTICAL"
+            var_name="box_sizer2">
+            <node
+              class="wxStaticBoxSizer"
+              label="1. Dados Gerais da Linha e Bases do Sistema (LineSystemInput)">
+              <node
+                class="wxFlexGridSizer"
+                cols="6"
+                hgap="8"
+                vgap="6"
+                proportion="1">
+                <node
+                  class="wxStaticText"
+                  label="Nome da LT:"
+                  var_name="lblLineName" />
+                <node
+                  class="wxTextCtrl"
+                  value="LT 230 kV Exemplo"
+                  var_name="txt_lineName"
+                  size="200,-1"
+                  tooltip="Identificação descritiva da linha de transmissão para o cabeçalho do relatório (ex.: LT 69 kV Pelotas 5 - Pelotas 2)." />
+                <node
+                  class="wxStaticText"
+                  label="Frequência [Hz]:"
+                  var_name="lblFrequency" />
+                <node
+                  class="wxTextCtrl"
+                  value="60.0"
+                  var_name="txt_frequency"
+                  size="80,-1"
+                  tooltip="Frequência nominal de operação do sistema elétrico em Hertz (padrão no Brasil: 60,0 Hz)." />
+                <node
+                  class="wxStaticText"
+                  label="Resistividade Solo [Ω·m]:"
+                  var_name="lblEarthRes" />
+                <node
+                  class="wxTextCtrl"
+                  value="100.0"
+                  var_name="txt_earthResistivity"
+                  size="90,-1"
+                  tooltip="Resistividade elétrica equivalente do solo ao longo do traçado da linha em Ohm-metro (usada nas equações de retorno pela terra de Carson). Valor típico: 100,0 a 1000,0 Omh*m." />
+                <node
+                  class="wxStaticText"
+                  label="Comprimento [km]:"
+                  var_name="lblLength" />
+                <node
+                  class="wxTextCtrl"
+                  value="120.0"
+                  var_name="txt_lineLengthKm"
+                  size="90,-1"
+                  tooltip="Extensão total da linha de transmissão em quilômetros, utilizada para calcular os parâmetros totais (Ohms, uF, mS) e valores em pu." />
+                <node
+                  class="wxStaticText"
+                  label="Tensão Base Vbase [kV]:"
+                  var_name="lblVBase" />
+                <node
+                  class="wxTextCtrl"
+                  value="230.0"
+                  var_name="txt_vBaseKv"
+                  size="100,-1"
+                  tooltip="Tensão nominal fase-fase de base do sistema em quilovolts (ex.: 69,0; 138,0; 230,0; 500,0 kV) para cálculo da impedância de base." />
+                <node
+                  class="wxStaticText"
+                  label="Potência Base Sbase [MVA]:"
+                  var_name="lblSBase" />
+                <node
+                  class="wxTextCtrl"
+                  value="100.0"
+                  var_name="txt_sBaseMva"
+                  size="80,-1"
+                  tooltip="Potência aparente trifásica de base do sistema em MVA (padrão usual: 100,0 MVA) para conversão dos parâmetros em por unidade (pu)." />
+                <node
+                  class="wxStaticText"
+                  label="Transposição:"
+                  var_name="lblTransp" />
+                <node
+                  class="wxChoice"
+                  contents="&quot;Não Transposta (Untransposed)&quot; &quot;Idealmente Transposta (Transposed)&quot;"
+                  var_name="choice_transposition"
+                  tooltip="Regime de transposição das fases: escolha &quot;Idealmente Transposta&quot; para equilibrar as matrizes de fase (média das diagonais e mútuas) ou &quot;Não Transposta&quot; para manter a assimetria geométrica real da torre." />
+              </node>
+            </node>
+            <node
+              class="wxStaticBoxSizer"
+              label="2. Condições Ambientais e Mecânicas (EnvironmentalData - Cálculo de Flecha)"
+              var_name="static_box2">
+              <node
+                class="wxFlexGridSizer"
+                cols="12"
+                var_name="flex_grid_sizer2"
+                hgap="6"
+                vgap="5"
+                proportion="1">
+                <node
+                  class="wxStaticText"
+                  label="T&amp;op [°C]:"
+                  var_name="lblTop" />
+                <node
+                  class="wxTextCtrl"
+                  value="75.0"
+                  var_name="txt_operatingTemperature"
+                  size="65,-1"
+                  tooltip="Temperatura média de operação do condutor em graus Celsius (ex.: 75,0 ºC), usada para corrigir a resistência elétrica (Rcc) a partir de 20 ºC e calcular a flecha térmica." />
+                <node
+                  class="wxStaticText"
+                  label="T&amp;amb [°C]:"
+                  var_name="lblTamb" />
+                <node
+                  class="wxTextCtrl"
+                  value="25.0"
+                  var_name="txt_ambientTemperature"
+                  size="65,-1"
+                  tooltip="Temperatura ambiente de referência do projeto mecânico em graus Celsius (ex.: 25,0 ºC), base para o cálculo da variação de comprimento e flecha" />
+                <node
+                  class="wxStaticText"
+                  label="Vão L [m]:"
+                  var_name="lblSpan" />
+                <node
+                  class="wxTextCtrl"
+                  value="350.0"
+                  var_name="txt_spanLength"
+                  size="70,-1"
+                  tooltip="Comprimento médio do vão entre estruturas adjacentes em metros (ex.: 350,0 m), usado no cálculo da flecha parabólica/catenária quando a altura no meio do vão não é informada diretamente." />
+                <node
+                  class="wxStaticText"
+                  label="Tração H [kgf]:"
+                  var_name="lblTension" />
+                <node
+                  class="wxTextCtrl"
+                  value="2500.0"
+                  var_name="txt_horizontalTension"
+                  size="75,-1"
+                  tooltip="Componente horizontal da tração mecânica aplicada ao cabo em quilogramas-força (ex.: 2500,0 kgf), utilizada no cálculo mecânico da flecha." />
+                <node
+                  class="wxStaticText"
+                  label="Vento [kg/m²]:"
+                  var_name="lblWind" />
+                <node
+                  class="wxTextCtrl"
+                  value="0.0"
+                  var_name="txt_windPressure"
+                  size="65,-1"
+                  tooltip="Pressão dinâmica do vento transversal sobre o condutor em quilogramas-força por metro quadrado (use 0,0 para condição sem vento)." />
+                <node
+                  class="wxStaticText"
+                  label="Gelo [mm]:"
+                  var_name="lblIce" />
+                <node
+                  class="wxTextCtrl"
+                  value="0.0"
+                  var_name="txt_iceThickness"
+                  size="65,-1"
+                  tooltip="Espessura radial da camada de gelo acumulada sobre o cabo em milímetros (use 0,0 para linhas no Brasil sem sobrecarga de gelo)" />
+              </node>
+            </node>
+            <node
+              class="wxStaticBoxSizer"
+              label="3. Arquitetura de Fases, Feixes e Cabos Para-Raios (Planilha)"
+              var_name="static_box3"
+              proportion="1">
+              <node
+                class="wxBoxSizer"
+                var_name="bSizerGridButtons">
+                <node
+                  class="wxButton"
+                  label="+ Adicionar Fase"
+                  var_name="btn_addPhase"
+                  tooltip="Adiciona uma nova linha de condutor de fase na planilha com valores padrão do cabo."
+                  wxEVT_BUTTON="OnAddPhase" />
+                <node
+                  class="wxButton"
+                  label="+ Adicionar Para-Raios"
+                  var_name="btn_addGroundWire"
+                  tooltip="Adiciona um novo cabo para-raios (guarda) na planilha com valores padrão."
+                  wxEVT_BUTTON="OnAddGroundWire" />
+                <node
+                  class="wxButton"
+                  label="- Remover Linha Selecionada"
+                  var_name="btn_removeRow"
+                  tooltip="Remove da planilha a linha onde o cursor está posicionado atualmente." />
+                <node
+                  class="wxButton"
+                  label="Carregar Exemplo LT 230 kV (2x Drake)"
+                  var_name="btn_loadExample"
+                  tooltip="Preenche todos os campos e a planilha com o caso didático de uma LT 230 kV circuito simples (2x Drake, 2x para-raios)." />
+              </node>
+              <node
+                class="wxGrid"
+                var_name="grid_conductors"
+                tooltip="Planilha de geometria e catálogo dos condutores: informe Tipo (Fase ou Para-raios), Circuito (1, 2... ou 0 para para-raios), coordenadas X e Y na torre [m], altura no meio do vão [m] ou flecha de projeto [m], dados do feixe (N subcondutores, espaçamento [m], ângulo [º], arranjo) e parâmetros elétricos/mecânicos do cabo (Rcc 20 ºC - [Ohm/km]), diâmetro [mm], GMR [mm], peso [kg/m], alfa_20 [1/C] e fator skin)."
+                flags="wxEXPAND"
+                proportion="1" />
+            </node>
+            <node
+              class="wxBoxSizer"
+              var_name="bSizerActions">
+              <node
+                class="wxButton"
+                label="Calcular Parâmetros (LineParametersEngine::compute)"
+                var_name="btn_calculate"
+                tooltip="Executa o cálculo das matrizes de impedância (Carson), capacitância, admitância e componentes simétricas (0, 1, 2)." />
+              <node
+                class="wxButton"
+                label="Exportar Relatório (.txt)"
+                var_name="btn_exportReport"
+                tooltip="Salva o relatório completo gerado na área inferior em um arquivo de texto (.txt)." />
+              <node
+                class="wxButton"
+                label="Limpar Resultados"
+                var_name="btn_clearReport"
+                tooltip="Limpa o texto exibido na área de relatório." />
+              <node
+                class="wxButton"
+                label="Sair"
+                var_name="btn_exit"
+                tooltip="Encerra e fecha a aplicação." />
+              <node
+                class="wxButton"
+                label="Sobre"
+                var_name="btn_about"
+                tooltip="Exibe informações sobre a versão, metodologia de cálculo, biblioteca wxWidgets e autoria do software." />
+            </node>
+            <node
+              class="wxStaticBoxSizer"
+              label="4. Relatório de Parâmetros Elétricos (ReportGenerator)"
+              var_name="static_box4"
+              flags="wxEXPAND"
+              proportion="1">
+              <node
+                class="wxTextCtrl"
+                style="wxTE_MULTILINE|wxTE_READONLY|wxHSCROLL"
+                var_name="txt_reportOutput"
+                flags="wxEXPAND"
+                proportion="1" />
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+    <node
+      class="wxDialog"
+      class_name="ConductorPickerDialogBase"
+      style="wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER"
+      title="Catálogo de Condutores - Selecionar ou Inserir"
+      size="820,560"
+      base_file="ConductorPickerDialogBase"
+      derived_class_name="ConductorPickerDialog"
+      derived_file="conductorpickerdialog">
+      <node
+        class="wxBoxSizer"
+        orientation="wxVERTICAL">
+        <node
+          class="wxBoxSizer"
+          var_name="filter_sizer">
+          <node
+            class="wxStaticText"
+            label="Tipo:" />
+          <node
+            class="wxChoice"
+            contents="&quot;Todos&quot;"
+            var_name="m_choiceTipo" />
+          <node
+            class="wxStaticText"
+            label="Filtrar Nome / Bitola:"
+            var_name="m_staticText2" />
+          <node
+            class="wxTextCtrl"
+            var_name="m_txtSearch"
+            flags="wxEXPAND"
+            proportion="1" />
+        </node>
+        <node
+          class="wxListView"
+          column_labels="Tipo;Série;Condutor;Formação;Diâm [mm];Rcc 20°C [Ω/km];GMR [mm]"
+          style="wxLC_REPORT|wxLC_SINGLE_SEL|wxBORDER_SUNKEN"
+          var_name="m_listCables"
+          flags="wxEXPAND"
+          proportion="1" />
+        <node
+          class="wxStaticBoxSizer"
+          label="Parâmetros do Condutor Selecionado (editável caso queira inserir cabo fora da lista)">
+          <node
+            class="wxFlexGridSizer"
+            cols="6"
+            growablecols="1,3,5"
+            hgap="10"
+            vgap="6"
+            proportion="1">
+            <node
+              class="wxStaticText"
+              label="Nome / Código:"
+              var_name="m_staticText3" />
+            <node
+              class="wxTextCtrl"
+              var_name="m_txtName"
+              flags="wxEXPAND"
+              proportion="1" />
+            <node
+              class="wxStaticText"
+              label="Tipo (CA/CAA/EHS):"
+              var_name="m_staticText4" />
+            <node
+              class="wxTextCtrl"
+              value="CAA"
+              var_name="m_txtTipoManual"
+              flags="wxEXPAND"
+              proportion="1" />
+            <node
+              class="wxStaticText"
+              label="Rcc 20°C [Ω/km]:"
+              var_name="m_staticText5" />
+            <node
+              class="wxTextCtrl"
+              var_name="m_txtRdc20"
+              flags="wxEXPAND"
+              proportion="1" />
+            <node
+              class="wxStaticText"
+              label="Diâm. Ext [mm]:"
+              var_name="m_staticText6" />
+            <node
+              class="wxTextCtrl"
+              var_name="m_txtDiam"
+              flags="wxEXPAND"
+              proportion="1" />
+            <node
+              class="wxStaticText"
+              label="GMR (Ds) [mm]:"
+              var_name="m_staticText7" />
+            <node
+              class="wxTextCtrl"
+              var_name="m_txtGmr"
+              flags="wxEXPAND"
+              proportion="1" />
+            <node
+              class="wxStaticText"
+              label="Peso [kg/m]:"
+              var_name="m_staticText8" />
+            <node
+              class="wxTextCtrl"
+              var_name="m_txtPeso"
+              flags="wxEXPAND"
+              proportion="1" />
+            <node
+              class="wxStaticText"
+              label="Alpha20 [1/°C]:"
+              var_name="m_staticText9" />
+            <node
+              class="wxTextCtrl"
+              value="0,00403"
+              var_name="m_txtAlpha20"
+              flags="wxEXPAND"
+              proportion="1" />
+            <node
+              class="wxStaticText"
+              label="Skin T/D:"
+              var_name="m_staticText10" />
+            <node
+              class="wxTextCtrl"
+              value="0,50"
+              var_name="m_txtSkin"
+              flags="wxEXPAND"
+              proportion="1" />
+            <node
+              class="wxStaticText"
+              label=""
+              var_name="m_staticText11" />
+            <node
+              class="wxButton"
+              label="Salvar Novo no CSV"
+              var_name="m_btnSaveCsv"
+              tooltip="Grava os dados digitados acima no arquivo data/cabos_catalogo.csv."
+              proportion="1" />
+          </node>
+        </node>
+        <node
+          class="wxStdDialogButtonSizer"
+          static_line="0"
+          alignment="wxALIGN_RIGHT" />
+      </node>
+    </node>
+  </node>
+</wxUiEditorData>

@@ -1,14 +1,28 @@
-# Pasta de compilação e binários
+# Pastas de compilação e artefatos do CMake / Make
 build/
+build_cmake/
+cmake-build-*/
 *.o
 *.obj
+*.a
+*.lib
 *.exe
 *.out
 line_calc
+line_calc_gui
 
-# Configurações locais do VS Code (opcional, mantém cada máquina livre)
+# Backups e arquivos temporários de editores (wxUiEditor, etc.)
+*.bak
+*.tmp
+*.wxui.bak
+*.xrc
+
+# Configurações locais de IDE
 .vscode/
+.vs/
+.idea/
 
 # Arquivos temporários do sistema operacional
 .DS_Store
 Thumbs.db
+desktop.ini
