@@ -1,8 +1,8 @@
 # Calculadora de Parâmetros Elétricos de Linhas de Transmissão (C++17)
 
-Biblioteca e aplicação modular de alta precisão para cálculo de parâmetros elétricos concentrados e distribuídos de linhas aéreas de transmissão de energia elétrica em regime permanente. O núcleo de cálculo fundamenta-se estritamente nas formulações teóricas do EMTP (H. W. Dommel), nas equações de retorno pela terra de Carson com aproximação de profundidade complexa de Dubanton/Deri, na teoria de coeficientes de potencial eletrostático de Maxwell, na norma ABNT NBR 11301 / IEC e na modelagem de sistemas de distribuição e transmissão de William H. Kersting.
+Aplicação desktop nativa e biblioteca modular de alta precisão para cálculo de parâmetros elétricos concentrados e distribuídos de linhas aéreas de transmissão de energia elétrica em regime permanente. O núcleo de cálculo fundamenta-se estritamente nas formulações teóricas do EMTP (H. W. Dommel), nas equações de retorno pela terra de Carson com aproximação de profundidade complexa de Dubanton/Deri, na teoria de coeficientes de potencial eletrostático de Maxwell, na norma ABNT NBR 11301 / IEC e na modelagem de sistemas de distribuição e transmissão de William H. Kersting.
 
-O código foi projetado segundo o padrão C++17, sendo totalmente agnóstico de plataforma e desprovido de dependências de bibliotecas externas proprietárias ou pesadas. Todo o motor numérico opera isolado da camada de interface, permitindo integração direta com interfaces gráficas em wxWidgets, Qt ou chamadas de simulação em lote.
+O projeto foi desenvolvido segundo o padrão **C++17** com interface gráfica nativa em **wxWidgets 3.2** (projetada via **wxUiEditor**), compilada de forma estática (sem dependência de DLLs externas em tempo de execução) e com todo o motor numérico isolado da camada visual.
 
 ---
 
@@ -12,7 +12,7 @@ O software executa o levantamento completo dos parâmetros fundamentais de linha
 
 * **Topologias Suportadas:** Linhas em circuito simples (trifásicas), circuito duplo na mesma estrutura (6 fases) e linhas polifásicas gerais com acoplamento mútuo.
 * **Geometria de Feixes:** 1 condutor por fase (simples), 2 condutores (horizontal ou inclinado), 3 condutores (triângulo equilátero), 4 condutores (quadrado regular) e N condutores distribuídos em arranjo circular regular.
-* **Cabos Heterogêneos:** Permite especificar condutores com diâmetros, formações, resistências e números de subcondutores totalmente diferentes para cada circuito na mesma torre.
+* **Cabos Heterogêneos e Catálogo Integrado:** Permite especificar condutores com diâmetros, formações, resistências e números de subcondutores diferentes para cada circuito na mesma torre. Inclui diálogo interativo de seleção (`ConductorPickerDialog`) conectado ao catálogo CSV (`cabos_catalogo.csv`), com filtro por tipo, busca por nome/bitola e cadastro/atualização direta de novos cabos.
 * **Cabos Para-Raios:** Suporte a 0, 1 ou 2 cabos para-raios aterrados continuamente em todas as estruturas (eliminados rigorosamente por Redução de Kron) ou seccionados/isolados.
 * **Tratamento Condicional da Flecha:** Aceita a cota de meio de vão ou flecha fornecida diretamente pelo projeto da linha; caso indisponível, calcula mecanicamente a catenária parabólica a partir da tração horizontal, peso próprio, pressão do vento e carregamento de gelo.
 * **Retorno pela Terra:** Formulação de Carson através do método de imagens de profundidade complexa de Dubanton / Deri / Gary, válido com precisão em frequência industrial e em faixas de transitórios eletromagnéticos.
@@ -222,96 +222,74 @@ Estes são os valores obrigatórios que devem constar no cadastro do condutor:
 
 ---
 
-## 4. Arquitetura Modular do Código C++17
+## 4. Arquitetura Modular do Projeto
 
-O projeto é estruturado em módulos independentes dentro do diretório `src/`:
+O projeto é estruturado em camadas independentes (motor numérico, gerenciamento de catálogo CSV e interface gráfica wxWidgets gerada via wxUiEditor):
 
 ```
-line_parameters_project/
-├── CMakeLists.txt              # Configuração CMake para compilação multiplataforma
-├── Makefile                    # Makefile para GCC / Clang
-├── README.md                   # Documentação técnica completa
-├── images/                     # Diagramas técnicos em alta resolução
+calculo-impedancia-lt/
+├── CMakeLists.txt                       # Configuração CMake (linkagem estática wxWidgets)
+├── Makefile                             # Makefile para MSYS2 / MinGW-w64 (UCRT64)
+├── LineCalcGUI.wxui                     # Projeto visual mestre do wxUiEditor
+├── README.md                            # Documentação técnica completa
+├── data/                                # Base de dados padrão de condutores
+│   └── cabos_catalogo.csv               # Catálogo de cabos (CA, CAA, CAL, EHS, AW)
+├── images/                              # Diagramas técnicos da documentação
 │   ├── bundle_geometries.png
 │   ├── tower_geometry_and_sag.png
 │   ├── kron_reduction_matrix.png
 │   └── double_circuit_coupling.png
-└── src/                        # Código-fonte C++17
-    ├── Types.hpp               # Matrizes, números complexos e inversão Gauss-Jordan
-    ├── InputData.hpp           # Estruturas de dados de entrada e catálogo
-    ├── ConductorModel.hpp/.cpp # Modelos térmicos e efeito pelicular
-    ├── LineGeometry.hpp/.cpp   # Expansão de subcondutores, flecha e distâncias
-    ├── LineParameters.hpp/.cpp # Carson/Dubanton, Maxwell, Kron e Feixes
-    ├── SymmetricalComponents.hpp/.cpp # Fortescue, transposições e mútua Z0m
-    ├── ReportGenerator.hpp/.cpp# Formatador do relatório de engenharia
-    └── main.cpp                # Ponto de entrada de teste (LT 230 kV 2x Drake)
+└── src/                                 # Código-fonte C++17
+    ├── Types.hpp                        # Matrizes, números complexos e inversão Gauss-Jordan
+    ├── InputData.hpp                    # Estruturas de dados de entrada e catálogo
+    ├── ConductorModel.hpp/.cpp          # Modelos térmicos e efeito pelicular
+    ├── LineGeometry.hpp/.cpp            # Expansão de subcondutores, flecha e distâncias
+    ├── LineParameters.hpp/.cpp          # Carson/Dubanton, Maxwell, Kron e Feixes
+    ├── SymmetricalComponents.hpp/.cpp   # Fortescue, transposições e mútua Z0m
+    ├── ReportGenerator.hpp/.cpp         # Formatador do relatório de engenharia
+    ├── ConductorCatalogManager.hpp/.cpp # Leitura, busca e gravação do cabos_catalogo.csv
+    ├── MainFrameBase.h/.cpp             # Interface principal gerada pelo wxUiEditor
+    ├── MainFrame.h/.cpp                 # Eventos e controle da janela principal
+    ├── ConductorPickerDialogBase.h/.cpp # Diálogo de catálogo gerado pelo wxUiEditor
+    ├── ConductorPickerDialog.hpp/.cpp   # Filtro, seleção e cadastro de cabos no CSV
+    ├── AppMain.cpp                      # Ponto de entrada da aplicação wxWidgets
+    ├── resources.rc                     # Recurso nativo do Windows (ícone do executável)
+    └── app_icon.ico                     # Ícone multi-resolução (16x16 a 256x256)
 ```
 
 ### Detalhamento dos Módulos
 
-* **`Types.hpp`:** Define os tipos `Complex`, matrizes dinâmicas de precisão dupla `ComplexMatrix` e `RealMatrix`. Implementa algoritmos de inversão de matrizes complexas e reais via eliminação de Gauss-Jordan com pivoteamento parcial de linhas. Padroniza a constante matemática `PI` e as constantes físicas universais `MU_0` e `EPS_0`.
-* **`InputData.hpp`:** Define as estruturas `ConductorCatalog`, `BundleConfig`, `PhaseData`, `GroundWireData`, `EnvironmentalData` e `LineSystemInput`.
-* **`ConductorModel.hpp / ConductorModel.cpp`:** Executa a correção térmica $R_{cc}(T)$ e calcula o fator de efeito pelicular da IEC/NBR 11301 e a reatância interna $X_{\text{int}}$.
-* **`LineGeometry.hpp / LineGeometry.cpp`:** Realiza o cálculo condicional da catenária sob vento/gelo, avalia $h_{\text{média}}$ e expande os feixes de subcondutores no espaço cartesiano bidimensional.
-* **`LineParameters.hpp / LineParameters.cpp`:** Monta as matrizes primitivas com os termos de profundidade complexa de Carson/Dubanton, executa a partição matricial e a Redução de Kron analítica nos para-raios aterrados, reduz os feixes e inverte a matriz $[P]$ para extrair $[C]$ e $[Y]$.
-* **`SymmetricalComponents.hpp / SymmetricalComponents.cpp`:** Realiza a transformação de Fortescue, trata o regime de transposição e processa linhas de circuito simples ou duplo, isolando o acoplamento mútuo homopolar $Z_{0m}$.
-* **`ReportGenerator.hpp / ReportGenerator.cpp`:** Gera o relatório de engenharia formatado com saídas unitárias por quilômetro e totais da linha em grandezas físicas e em pu.
+* **Núcleo Numérico (`Types`, `InputData`, `ConductorModel`, `LineGeometry`, `LineParameters`, `SymmetricalComponents`, `ReportGenerator`):** Implementa toda a modelagem eletromagnética e mecânica em C++17 puro, sem acoplamento com a interface gráfica.
+* **Gerenciador de Catálogo (`ConductorCatalogManager`):** Localiza automaticamente `cabos_catalogo.csv` (na pasta do executável, em `data/` ou no diretório de trabalho), realiza parsing tolerante a separadores decimais (`,` ou `.`) e grava novos condutores ou atualizações em UTF-8 com BOM.
+* **Interface Gráfica (`MainFrame` e `ConductorPickerDialog`):** Separa o código gerado automaticamente pelo **wxUiEditor** (`*Base.h/.cpp`) das classes derivadas com a lógica de eventos, permitindo evoluir o layout visual sem perda de código.
 
 ---
 
 ## 5. Como Compilar e Executar
 
 ### Pré-requisitos
-* Compilador C++ com suporte integral a C++17 (GCC 7+, Clang 5+, ou MSVC 2017+).
+* Compilador C++ com suporte integral a C++17 (GCC / MinGW-w64 UCRT64, Clang ou MSVC).
+* Biblioteca **wxWidgets 3.2** (componentes `core`, `base` e `adv`) compilada estaticamente.
 
-### Compilação via Makefile (Linux / macOS / MSYS2)
+### Compilação via Makefile (MSYS2 UCRT64)
 ```bash
 make
-./line_calc
-```
-
-### Compilação Direta via GCC / Clang
-```bash
-g++ -std=c++17 -O2 -Wall -Isrc src/main.cpp src/ConductorModel.cpp src/LineGeometry.cpp src/LineParameters.cpp src/SymmetricalComponents.cpp src/ReportGenerator.cpp -o line_calc
-./line_calc
+./build/line_calc_gui.exe
 ```
 
 ### Compilação via CMake (Multiplataforma / Windows / Visual Studio)
 ```bash
-mkdir build
-cd build
+mkdir build_cmake
+cd build_cmake
 cmake ..
 cmake --build . --config Release
-./line_calc
 ```
 
----
-
-## 6. Integração com Interface Gráfica (wxWidgets)
-
-O motor numérico é completamente desacoplado de entradas de console ou dependências de sistema operacional. Para acoplar a uma interface em wxWidgets:
-
-1. **Captura dos Dados na Janela:** Os controles de texto e grids da interface gráfica alimentam diretamente a estrutura `LineParameters::LineSystemInput`.
-2. **Disparo do Cálculo:** No evento de clique do botão (`wxEVT_BUTTON`):
-   ```cpp
-   // Instancia e preenche a estrutura com os dados da GUI
-   LineParameters::LineSystemInput line;
-   // ... leitura dos campos wxTextCtrl ...
-
-   // Chamada do núcleo de cálculo
-   auto matrices = LineParameters::LineParametersEngine::compute(line);
-   auto seq = LineParameters::SymmetricalComponentsEngine::analyze(
-       matrices.Z_phase, matrices.C_phase, matrices.Y_phase, line
-   );
-
-   // Geração do relatório em texto ou preenchimento de wxGrid
-   std::string relatorio = LineParameters::ReportGenerator::generateReport(line, matrices, seq);
-   txtResultado->SetValue(wxString::FromUTF8(relatorio.c_str()));
-   ```
+> **Nota sobre o Catálogo de Cabos:** Ao distribuir o executável `line_calc_gui.exe`, mantenha a pasta `data/cabos_catalogo.csv` (ou o arquivo `cabos_catalogo.csv`) no mesmo diretório do `.exe` para que o catálogo seja carregado automaticamente.
 
 ---
 
-## 7. Referências Bibliográficas
+## 6. Referências Bibliográficas
 
 1. **DOMMEL, H. W.** *calculation-by-hand-transmission-line-parameters-dommel.pdf*. Handout on Transmission Line Parameter Calculations, Department of Electrical Engineering, University of British Columbia, 1985.
 2. **EMTP Working Group.** *EMTP4.PDF* e *section09 - Line Constants.pdf*. Electromagnetic Transients Program (EMTP) Rule Book: Overhead Line Constants Module.
